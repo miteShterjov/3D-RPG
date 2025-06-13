@@ -15,7 +15,7 @@ namespace RPG.Core
 
         [Header("Rotation Settings")]
         [SerializeField] float rotationSpeed = 5f;
-        [SerializeField] float minPitch = -30f;
+        [SerializeField] float minPitch = -60f;
         [SerializeField] float maxPitch = 60f;
 
         [Header("Camera Offset")]
