@@ -6,9 +6,9 @@ namespace RPG.Combat
 {
     public class Fighter : MonoBehaviour, IAction
     {
-        [SerializeField] float weaponRange = 2f;
-        [SerializeField] float timeBetweenAttacks = 1f;
-        [SerializeField] float weaponDamage = 5f;
+        [SerializeField] private Transform handTransform = null;
+        [SerializeField] private Weapon weapon = null;
+
 
         Health target;
         float timeSinceLastAttack = Mathf.Infinity;
@@ -16,6 +16,7 @@ namespace RPG.Combat
         private void Start()
         {
             target = null;
+            SpawnWeapon();
         }
 
         private void Update()
@@ -39,7 +40,7 @@ namespace RPG.Combat
         private void AttackBehaviour()
         {
             transform.LookAt(target.transform);
-            if (timeSinceLastAttack > timeBetweenAttacks)
+            if (timeSinceLastAttack > weapon.TimeBetweenAttacks)
             {
                 // This will trigger the Hit() event.
                 TriggerAttack();
@@ -57,13 +58,13 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) { return; }
-            target.TakeDamage(weaponDamage);
+            target.TakeDamage(weapon.WeaponDamage);
             print("Attacking " + target.name);
         }
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) < weapon.WeaponRange;
         }
 
         public bool CanAttack(GameObject combatTarget)
@@ -89,6 +90,20 @@ namespace RPG.Combat
         {
             GetComponent<Animator>().ResetTrigger("attack");
             GetComponent<Animator>().SetTrigger("stopAttack");
+        }
+
+        private void SpawnWeapon()
+        {
+            if (weapon == null || handTransform == null)
+            {
+                transform.Find("Item_Sword")?.gameObject.SetActive(true);
+                transform.Find("Item_SwordHolder")?.gameObject.SetActive(true);
+            }
+
+            Animator animator = GetComponent<Animator>();
+            weapon?.Spawn(handTransform, animator);
+
+
         }
     }
 }
