@@ -17,8 +17,9 @@ namespace RPG.SceneManagment
         [SerializeField] private float fadeInTime = 1f;
         [SerializeField] private float fadeWaitTime = 0.5f;
 
-
-        void OnTriggerEnter(Collider other)
+        // Checks if the portal is active and ready to transition
+        // This method is called when the player enters the portal's trigger area
+        private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
@@ -26,6 +27,10 @@ namespace RPG.SceneManagment
             }
         }
 
+        // Transitions to the specified scene index
+        // It handles the fading out and in of the screen, loads the new scene,
+        // and updates the player's position and camera
+        // This method is called when the player enters the portal
         private IEnumerator TransitionToScene()
         {
             DontDestroyOnLoad(gameObject);
@@ -48,6 +53,8 @@ namespace RPG.SceneManagment
             Destroy(gameObject); // Destroy the portal after loading the scene
         }
 
+        // Updates the camera to follow the player after the scene transition
+        // This method is called after the scene is loaded and the player is updated
         private void UpdateCamera()
         {
             GameObject camera = GameObject.Find("Third Person Aim Camera");
@@ -59,6 +66,8 @@ namespace RPG.SceneManagment
             camera.GetComponent<CinemachineCamera>().Follow = GameObject.FindWithTag("Player").transform;
         }
 
+        // Checks if the player is within attack range of the portal
+        // This is used to determine if the player can interact with the portal
         private void UpdatePlayer(Portal otherPortal)
         {
             GameObject player = GameObject.FindWithTag("Player");

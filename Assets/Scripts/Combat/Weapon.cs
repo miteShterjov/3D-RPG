@@ -49,7 +49,7 @@ namespace RPG.Combat
             Projectile projectileInstance = Instantiate(projectile,
                 isRightHanded ? rightHand.position : leftHand.position,
                 Quaternion.identity);
-            projectileInstance.SetTarget(target);
+            projectileInstance.SetTarget(target, weaponDamage);
         }
     }
 }

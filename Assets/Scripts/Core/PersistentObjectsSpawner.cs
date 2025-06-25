@@ -6,9 +6,8 @@ namespace RPG.Core
     public class PersistentObjectsSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject persistentObjectPrefab;
-
         static bool hasSpawned = false;
-
+    
         private void Awake()
         {
             if (hasSpawned) return;
@@ -17,6 +16,8 @@ namespace RPG.Core
             hasSpawned = true;
         }
 
+        // Spawns persistent objects that should not be destroyed on scene load
+        // This method is called once at the start of the game
         private void SpawnPersistentObjects()
         {
             if (persistentObjectPrefab == null)
